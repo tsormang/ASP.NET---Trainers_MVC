@@ -20,11 +20,24 @@ namespace PaperSchoolTrainers
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      "~/Scripts/jquery.flexslider - min.js",
+                      "~/Scripts/jquery.fancybox.pack.js",
+                      "~/Scripts/jquery.waypoints.min.js",
+                      "~/Scripts/retina.min.js",
+                      "~/Scripts/main.js"
+                      ));
+
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                        "~/Content/bootstrap.css",
+                        "~/Content/site.css",
+                        "~/Content/main/css",
+                        "~/Content/jquery.fancybox.css",
+                        "~/Content/responsive.css",
+                        "~/Content/animate.min.css",
+                        "~/Content/animate.min.css",
+                        "~/Content/font-icon.css"
+                        ));
         }
     }
 }

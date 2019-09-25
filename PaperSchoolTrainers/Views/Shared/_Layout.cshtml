@@ -4,30 +4,46 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Paper School</title>
+
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/main.css")
+    @Styles.Render("~/Content/jquery.fancybox.css")
+    @Styles.Render("~/Content/responsive.css")
+    @Styles.Render("~/Content/animate.min.css")
+    @Styles.Render("~/Content/animate.min.css")
+    @Styles.Render("~/Content/font-icon.css")
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Paper School", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+    <!-- header section -->
+    <section class="banner" role="banner">
+        <!--header navigation -->
+        <header id="header">
+            <div class="header-content clearfix">
+                <a class="logo" href="index.html">@Html.ActionLink("Paper School", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</a>
+                <nav class="navigation" role="navigation">
+
+                    <ul class="primary-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Trainers", "Index", "Trainers")</li>
+                    </ul>
+                </nav>
+                <a href="#" class="nav-toggle">Menu<span></span></a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Trainers", "Index", "Trainers")</li>
-                </ul>
-            </div>
-        </div>
-    </div>
+        </header>
+        <!--header navigation -->
+    </section>
+    <!-- header section -->
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -38,6 +54,17 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @Scripts.Render("~/Scripts/jquery.flexslider - min.js")
+    @Scripts.Render("~/Scripts/jquery.fancybox.pack.js")
+    @Scripts.Render("~/Scripts/jquery.waypoints.min.js")
+    @Scripts.Render("~/Scripts/retina.min.js")
+    @Scripts.Render("~/Scripts/modernizr.js")
+    @Scripts.Render("~/Scripts/main.js")
+
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

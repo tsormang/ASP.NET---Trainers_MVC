@@ -17,17 +17,36 @@ namespace PaperSchoolTrainers.Controllers
         private TrainersDb db = new TrainersDb();
 
         // GET: Trainers
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string sortOrder,string searchString)
         {
+            // SORTING
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "fname_desc" : "";
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "lname_desc" : "";
+
             var trainers = from t in db.Trainers
                          select t;
 
+            // FILTER
             if (!String.IsNullOrEmpty(searchString))
             {
                 trainers = trainers.Where(tr => (tr.FirstName.Contains(searchString)) || (tr.LastName.Contains(searchString)) || (tr.Subject.Contains(searchString)));
             }
 
-            return View(trainers);
+            // SORTING
+            switch (sortOrder)
+            {
+                case "fname_desc":
+                    trainers = trainers.OrderByDescending(s => s.FirstName);
+                    break;
+                case "lname_desc":
+                    trainers = trainers.OrderByDescending(s => s.LastName);
+                    break;
+                default:
+                    trainers = trainers.OrderBy(s => s.LastName);
+                    break;
+            }
+
+            return View(trainers.ToList());
         }
 
         // GET: Trainers/Details/5
@@ -56,15 +75,22 @@ namespace PaperSchoolTrainers.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Subject,Salary")] Trainer trainer)
+        public ActionResult Create([Bind(Include = "FirstName,LastName,Subject,Salary")] Trainer trainer)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Trainers.Add(trainer);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Trainers.Add(trainer);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-
+            catch (DataException /* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
             return View(trainer);
         }
 
@@ -86,25 +112,43 @@ namespace PaperSchoolTrainers.Controllers
         // POST: Trainers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Subject,Salary")] Trainer trainer)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(trainer).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(trainer);
-        }
-
-        // GET: Trainers/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult EditPost(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var trainerToUpdate = db.Trainers.Find(id);
+            if (TryUpdateModel(trainerToUpdate, "",
+               new string[] { "FirstName,LastName,Subject,Salary" }))
+            {
+                try
+                {
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+                catch (DataException /* dex */)
+                {
+                    //Log the error (uncomment dex variable name and add a line here to write a log.
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                }
+            }
+            return View(trainerToUpdate);
+        }
+
+        // GET: Trainers/Delete/5
+        public ActionResult Delete(int? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = "Delete failed. Try again, and if the problem persists see your system administrator.";
             }
             Trainer trainer = db.Trainers.Find(id);
             if (trainer == null)
@@ -115,13 +159,21 @@ namespace PaperSchoolTrainers.Controllers
         }
 
         // POST: Trainers/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
-            Trainer trainer = db.Trainers.Find(id);
-            db.Trainers.Remove(trainer);
-            db.SaveChanges();
+            try
+            {
+                Trainer trainer = db.Trainers.Find(id);
+                db.Trainers.Remove(trainer);
+                db.SaveChanges();
+            }
+            catch (DataException/* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                return RedirectToAction("Delete", new { id = id, saveChangesError = true });
+            }
             return RedirectToAction("Index");
         }
 

@@ -153,7 +153,6 @@ C:\Users\Giger_PC\Desktop\ASP.NET MvcTrainers\PaperSchoolTrainers\bin\System.Web
 C:\Users\Giger_PC\Desktop\ASP.NET MvcTrainers\PaperSchoolTrainers\bin\Newtonsoft.Json.xml
 C:\Users\Giger_PC\Desktop\ASP.NET MvcTrainers\PaperSchoolTrainers\bin\Antlr3.Runtime.pdb
 C:\Users\Giger_PC\Desktop\ASP.NET MvcTrainers\PaperSchoolTrainers\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\Giger_PC\Desktop\ASP.NET MvcTrainers\PaperSchoolTrainers\obj\Debug\PaperSchoolTrainers.csprojAssemblyReference.cache
 C:\Users\Giger_PC\Desktop\ASP.NET MvcTrainers\PaperSchoolTrainers\obj\Debug\PaperSchoolTrainers.csproj.CoreCompileInputs.cache
 C:\Users\Giger_PC\Desktop\ASP.NET MvcTrainers\PaperSchoolTrainers\obj\Debug\PaperSchoolTrainers.csproj.CopyComplete
 C:\Users\Giger_PC\Desktop\ASP.NET MvcTrainers\PaperSchoolTrainers\obj\Debug\PaperSchoolTrainers.dll
