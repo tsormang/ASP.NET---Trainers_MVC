@@ -6,32 +6,13 @@
     <title>@ViewBag.Title - Paper School</title>
 
     @Styles.Render("~/Content/css")
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
 
 </head>
 <body>
 
-    <!-- header section -->
-    <section class="banner" role="banner">
-        <!--header navigation -->
-        <header id="header">
-            <div class="header-content clearfix">
-                <a class="logo" href="index.html">@Html.ActionLink("Paper School", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</a>
-                <nav class="navigation" role="navigation">
-
-                    <ul class="primary-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Trainers", "Index", "Trainers")</li>
-                    </ul>
-                </nav>
-                <a href="#" class="nav-toggle">Menu<span></span></a>
-            </div>
-        </header>
-        <!--header navigation -->
-    </section>
-    <!-- header section -->
+    @*This is the Nav Bar*@
+    @Html.Partial("_Navigation");
 
     <br/>
     <br/>
@@ -41,15 +22,12 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Paper School</p>
-        </footer>
+        @*This is the Footer*@
+        @Html.Partial("_Footer");
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>

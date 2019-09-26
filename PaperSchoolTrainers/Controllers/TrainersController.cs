@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PaperSchoolTrainers.Models;
+using PagedList;
 
 namespace PaperSchoolTrainers.Controllers
 {
@@ -17,14 +18,27 @@ namespace PaperSchoolTrainers.Controllers
         private TrainersDb db = new TrainersDb();
 
         // GET: Trainers
-        public ActionResult Index(string sortOrder,string searchString)
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             // SORTING
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "fname_desc" : "";
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "lname_desc" : "";
+            ViewBag.CurrentSort = sortOrder;
 
             var trainers = from t in db.Trainers
                          select t;
+
+            // PAGE NUMBERS
+            if (searchString != null)
+            {
+                page = 1;
+            }  
+            else
+            {
+                searchString = currentFilter;
+            }   
+            ViewBag.CurrentFilter = searchString;
+
 
             // FILTER
             if (!String.IsNullOrEmpty(searchString))
@@ -46,7 +60,10 @@ namespace PaperSchoolTrainers.Controllers
                     break;
             }
 
-            return View(trainers.ToList());
+            // Number of Pages
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(trainers.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Trainers/Details/5

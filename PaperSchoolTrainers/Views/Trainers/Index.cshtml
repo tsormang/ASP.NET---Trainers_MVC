@@ -1,39 +1,38 @@
-﻿@model IEnumerable<PaperSchoolTrainers.Models.Trainer>
+﻿
+@model PagedList.IPagedList<PaperSchoolTrainers.Models.Trainer>
+    @using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Trainers";
 }
 
-<h2>Trainers</h2>
-
-
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "Trainer", FormMethod.Get))
 {
     <p>
-        Filter: @Html.TextBox("SearchString")
-        <input style="color:#5094e8; border-radius:50%; background-color:#5094e8" type="submit" value=" " />
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
     </p>
 }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
+<h4 class="col-md-offset-10 col-md-8">@Html.ActionLink("Create New", "Create")</h4>
+
 
 
 <table class="table" style="color:black">
     <tr>
         <th>
-            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Subject)
+            Subject
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Salary)
+            Salary
         </th>
         <th></th>
     </tr>
@@ -62,3 +61,8 @@
     }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
